@@ -1,0 +1,74 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    font-family:serif;
+}
+.header{
+    background-color: black;
+    color:aliceblue;
+    text-align: left;
+}
+#todo{
+    margin: 20px;
+    align-items: center;
+    gap: 10px;
+}
+#todo input{
+    width: 90%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+#todo label{
+    display: block;
+    margin-bottom: 10px;
+    font-family:serif;
+    font-weight: bold;
+}
+#todo button{
+    padding: 10px 20px;
+    margin-left: 20px;
+    background-color: #2784AB;
+    border-color: #2784AB;
+    font-size: 14px;
+    font-family:serif;
+    cursor: pointer;
+}
+#todo button:hover{
+    background-color: #1E5F73;
+    border-color: #1E5F73;
+}
+#task-list{
+    margin: 20px;
+    padding: 0;
+    list-style-type: none;
+}
+#task-list li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+#task-list li span{
+    flex: 1;
+    margin-right: 10px;
+}
+#task-list li button{
+    padding: 5px 10px;
+    background-color: #FF6347;
+    border-color: #FF6347;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+#task-list li span.completed{
+    text-decoration: line-through;
+    color: #888;
+}
+#task-list li button:hover{
+    background-color: #CD4F39;
+    border-color: #CD4F39;
+}
