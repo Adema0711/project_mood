@@ -1,108 +1,73 @@
-<!DOCTYPE>
-<html>
-    <head>
-        <title>CineWave-Stream Anytime</title>
-        <style>
-            body{
-                background-color: #1a1a2e;
-                color:white;
-                
-                
-            }
-            #hero{
-                flex-direction: column;
-                align-items: center;
-                background-color: #16213e;
-                padding:300px;
-                border-radius: 6px;
-            }
-            #hero button{
-                background-color: orangered;
-                color: white;
-                border:none;
+body {
+font-family: Arial, sans-serif;
+background-color: #f4f4f4;
+display: flex;
+justify-content: center;
+margin-top: 50px;
+}
 
-            }
-            #hero button:hover{
-                background-color: aquamarine;
-            }
-            #hero form{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            #movies{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap:20px;
-                width:100%;
-                transform: scale();
-            }
-            #pricing{
-                justify-content:center;
-                gap:20px;  
-            }
-                .plan-card{
-                    width:30%;
-                    border:30%;
-                    padding:30%;
-                }
+.container {
+background: white;
+padding: 20px;
+width: 400px;
+max-width: 90%;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 
-        </style>
-    </head>
-    <body>
-        <header id="header">
-            <h1>CineWave</h1>
-            <nav>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Movies</a></li>
-                    <li><a href="#">Pricing</a></li>
-                    <li><a href="#">Sign up</a></li>
-                </ul>
-            </nav>
+h1 {
+text-align: center;
+}
 
-        </header>
-        <section id="hero">
-            <h2>Unlimited Movies,Anytime,Anywhere</h2>
-            <p>Here you can watch and stream your favourite movies.The most convenient tool.</p>
-            <form>
-                <label for="email">Email:</label>
-                <input type="email" placeholder="Enter your email">
-                <label for="password">Password</label>
-                <input type="password" placeholder="Create a password">
-                <button type="submit">Get Started</button>
-            </form>
-        </section>
-        <section id="movies">
-            <h2>Featured Movies</h2>
-            <div class="movie-card">
-                <img src="" alt="Movie 1">
-                <h3>Movie Title 1</h3>
-                <h3>Movie Title 2</h3>
-                <h3>Movie Title 3</h3>
-                <h3>Movie Title 4</h3>
-                <h3>Movie Title 5</h3>
-                <h3>Movie Title 6</h3>
-                <span class="genre">Genre: Action, Adventure</span>
+.input-section {
+display: flex;
+gap: 10px;
+}
 
-            </div>
-        </section>
-        <section id="pricing">
-            <h2>Choose your plan</h2>
-            <div class="plan-card">
-                <ul>
-                    <li><h3>Basic</h3>-<p class='price'>1500/month</p>-SD quality,1device,limited library</li>
-                    <button type="button">Subscribe</button>
-                    <li><h3>Standard</h3>-<p class='price'>2500/month</p>-HD quality,2 devices,full library</li>
-                    <button type="button">Subscribe</button>
-                    <li><h3>Premium</h3>-<p class='price'>4000/month</p>-4K quality,4 devices,full library + downloads</li>
-                    <button type="button">Subscribe</button>
+input {
+flex: 1;
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
 
-                </ul>
-                
-            </div>
-        </section>
+button {
+padding: 8px 12px;
+background-color: #4CAF50;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
 
-    </body>
-</html>
+button:hover {
+opacity: 0.9;
+}
+
+ul {
+list-style-type: none;
+padding: 0;
+margin-top: 15px;
+}
+
+li {
+padding: 10px;
+margin-bottom: 10px;
+background-color: #e9e9e9;
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-radius: 4px;
+}
+
+.delete-btn {
+background-color: red;
+padding: 5px 8px;
+font-size: 12px;
+}
+
+.message {
+color: red;
+height: 20px;
+}
+

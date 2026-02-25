@@ -1,35 +1,16 @@
-const form=document.getElementById('todo');
-const input=document.getElementById('task');
-const list=document.getElementById('task-list');
-form.addEventListener('submit', function(event){
-    event.preventDefault();
+const itemInput = document.getElementById("itemInput");
+const addBtn = document.getElementById("addBtn");
+const shoppingList = document.getElementById("shoppingList");
+const message = document.getElementById("message");
+const itemCount = document.getElementById("itemCount");
 
-    const text=input.value.trim();
-    if(text=='') return;
+let count = 0;
 
-    const li=document.createElement('li');
+function updateCount() {
+    itemCount.textContent = count;
+}
 
-    const checkbox=document.createElement('input');
-    checkbox.type='checkbox';
+function addItem() {
+    const itemText = itemInput.value.trim();
 
-    const span=document.createElement('span');
-    span.textContent=text;
 
-    const deleteButton=document.createElement('button');
-    deleteButton.textContent='Delete';
-
-    checkbox.addEventListener('change', function(){
-        span.classList.toggle('completed',checkbox.checked);
-    });
-
-    deleteButton.addEventListener('click', function(){
-        li.remove();
-    });
-
-    li.appendChild(checkbox);
-    li.appendChild(span);
-    li.appendChild(deleteButton);
-
-    list.appendChild(li);
-    input.value='';
-});

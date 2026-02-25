@@ -1,0 +1,11 @@
+<div class="cards-container" *ngIf="products.length > 0; else empty">
+  <app-product-item 
+    *ngFor="let p of products"
+    [product]="p"
+    (delete)="delete.emit($event)">
+  </app-product-item>
+</div>
+
+<ng-template #empty>
+  <p>Нет товаров в этой категории</p>
+</ng-template>

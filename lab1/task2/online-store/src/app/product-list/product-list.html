@@ -1,0 +1,22 @@
+<div class="product-grid">
+    @for (product of products;track product.id){
+        <div class="product-card">
+            <img [src]="product.image" alt="{{product.name}}" class="product-image">
+            <h3>{{product.name}}</h3>
+            <p>{{product.description}}</p>
+            <p class="product-price">{{product.price | currency: 'KZT '}}</p>
+            <p class="product-rating">⭐ {{product.rating}}</p>
+            <a [href]="product.link" target="_blank" class="product-link">View on Kaspi</a>
+            <div class="share-buttons">
+    <button (click)="shareWhatsApp(product)">
+      Share WhatsApp
+    </button>
+
+    <button (click)="shareTelegram(product)">
+      Share Telegram
+    </button>
+  </div>
+        </div>
+    }
+</div>
+

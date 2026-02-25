@@ -1,0 +1,17 @@
+<h2>Выберите категорию:</h2>
+<button *ngFor="let category of categories"
+        (click)="selectCategory(category.id)"
+        [class.active]="category.id === selectedCategoryId">
+  {{ category.name }}
+</button>
+
+<div *ngIf="!selectedCategoryId">
+  <p>Выберите категорию, чтобы увидеть товары.</p>
+</div>
+
+<div *ngIf="selectedCategoryId">
+  <app-product-list 
+    [products]="filteredProducts"
+    (delete)="deleteProduct($event)">
+  </app-product-list>
+</div>
