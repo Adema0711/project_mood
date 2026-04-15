@@ -1,0 +1,65 @@
+body {
+  transition: background-color 0.4s ease;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.wrapper {
+  max-width: 500px;
+  margin: 40px auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 25px;
+  text-align: center;
+}
+
+.mood-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+button {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover { background-color: #5c6bc0; }
+button.active { background-color: #283593; }
+
+.refresh {
+  display: block;
+  margin: 15px auto 0;
+  background-color: #4caf50;
+}
+.refresh:hover { background-color: #66bb6a; }
+
+.card {
+  margin-top: 20px;
+  background: #e8f0fe;
+  padding: 20px;
+  border-radius: 8px;
+  animation: fadeIn 0.3s ease;
+  text-align: left;
+}
+
+.stats {
+  margin-top: 30px;
+  background: #fafafa;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
