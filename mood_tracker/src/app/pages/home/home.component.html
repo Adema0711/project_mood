@@ -1,0 +1,92 @@
+<div class="page">
+  <div class="container">
+
+    <div class="page-header fade-up">
+      <div>
+        <p class="greeting-sub">{{ greeting }},</p>
+        <h1 class="greeting">{{ auth.currentUser()?.username || 'пользователь' }} 👋</h1>
+      </div>
+      <div class="date-badge">{{ today | date:'d MMMM yyyy' }}</div>
+    </div>
+
+    <div class="mood-question fade-up">
+      <h2>How do you feel today?</h2>
+      <p>Choose your mood and get personalized recommendations</p>
+    </div>
+
+    <div class="mood-grid fade-up">
+      @for (mood of moods; track mood.key) {
+        <button
+          class="mood-btn"
+          [class.selected]="selectedMood === mood.key"
+          [style.--mood-color]="mood.color"
+          (click)="chooseMood(mood.key)">
+          <span class="mood-emoji">{{ mood.emoji }}</span>
+          <span class="mood-label">{{ mood.label }}</span>
+        </button>
+      }
+    </div>
+
+    @if (currentRec) {
+      <div class="rec-section fade-up" [style.--mood-color]="getMoodMeta(selectedMood)?.color">
+
+        <div class="rec-header">
+          <div class="rec-mood-tag">
+            <span>{{ getMoodMeta(selectedMood)?.emoji }}</span>
+            <span>{{ getMoodMeta(selectedMood)?.label }}</span>
+          </div>
+          <button class="btn btn-ghost clear-btn" (click)="clearSelection()">✕ Clear selection</button>
+        </div>
+
+        <div class="rec-body">
+          <div class="rec-links-row">
+            <a [href]="currentRec.music" target="_blank" class="rec-link music-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              Music for your mood
+            </a>
+            <a [href]="currentRec.movie" target="_blank" class="rec-link movie-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+              Movie for the evening
+            </a>
+          </div>
+
+          <div class="tips-section">
+            <div class="tips-header">
+              <h3>💡 Tips for you</h3>
+            </div>
+            <ul class="tips-list">
+              @for (tip of currentRec.tips; track tip) {
+                <li>{{ tip }}</li>
+              }
+            </ul>
+          </div>
+
+          <div class="note-section">
+            <h3>📝 Note</h3>
+            <textarea [(ngModel)]="note" name="note" placeholder="Write something about your mood..." rows="3"></textarea>
+            <div class="intensity-row">
+              <label>Intensity: <strong>{{ intensity }}/10</strong></label>
+              <input type="range" [(ngModel)]="intensity" name="intensity" min="1" max="10" step="1" class="intensity-slider" />
+            </div>
+          </div>
+
+          @if (errorMsg) { <div class="error-msg">{{ errorMsg }}</div> }
+          @if (savedMsg) { <div class="success-msg">{{ savedMsg }}</div> }
+
+          <button class="btn btn-primary save-btn" (click)="saveMood()" [disabled]="loading">
+            @if (loading) { <span class="spinner-sm"></span> Saving... }
+            @else { 💾 Save mood }
+          </button>
+        </div>
+      </div>
+    }
+
+    @if (!selectedMood) {
+      <div class="empty-state fade-up">
+        <div class="empty-icon">🌟</div>
+        <p>Choose a mood above to get started</p>
+      </div>
+    }
+
+  </div>
+</div>

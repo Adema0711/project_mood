@@ -1,0 +1,64 @@
+<div class="login-page">
+  <div class="login-left">
+    <div class="hero-content">
+      <div class="hero-icon">🎭</div>
+      <h1>MoodTrack</h1>
+      <p>Track your mood, get personalized recommendations, and understand yourself better.</p>
+      <div class="features">
+        <div class="feature">✨ Smart recommendations</div>
+        <div class="feature">📊 Mood history</div>
+        <div class="feature">🎵 Music and movies</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-card">
+      <div class="tab-switch">
+        <button [class.active]="mode === 'login'" (click)="switchMode('login')">Login</button>
+        <button [class.active]="mode === 'register'" (click)="switchMode('register')">Register</button>
+      </div>
+
+      <h2>{{ mode === 'login' ? 'Welcome back!' : 'Create an account' }}</h2>
+      <p class="sub">{{ mode === 'login' ? 'Log in to continue' : 'Start tracking your mood' }}</p>
+
+      @if (mode === 'register') {
+        <div class="form-group">
+          <label>Username</label>
+          <input [(ngModel)]="username" name="username" placeholder="Your name" />
+        </div>
+      }
+
+      <div class="form-group">
+        <label>Email</label>
+        <input [(ngModel)]="email" name="email" type="email" placeholder="you@example.com" />
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input [(ngModel)]="password" name="password" type="password" placeholder="••••••••" />
+      </div>
+
+      @if (mode === 'register') {
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input [(ngModel)]="confirmPassword" name="confirm" type="password" placeholder="••••••••" />
+        </div>
+      }
+
+      @if (error) {
+        <div class="error-msg">⚠️ {{ error }}</div>
+      }
+
+      <button class="btn btn-primary submit-btn" (click)="onSubmit()" [disabled]="loading">
+        @if (loading) {
+          <span class="spinner"></span> Loading...
+        } @else {
+          {{ mode === 'login' ? 'Login' : 'Register' }}
+        }
+      </button>
+
+      <p class="demo-hint">💡 Enter any email and password (4+ characters)</p>
+    </div>
+  </div>
+</div>

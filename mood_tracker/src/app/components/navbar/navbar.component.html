@@ -1,0 +1,14 @@
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="brand-icon">🎭</span>
+    <span class="brand-name">MoodTrack</span>
+  </div>
+<div class="nav-links">
+  <a routerLink="/home" routerLinkActive="active">Main</a>
+  <a routerLink="/history" routerLinkActive="active">History</a>
+  <a routerLink="/profile" routerLinkActive="active">Profile</a>
+</div>
+<button class="logout-btn" (click)="auth.logout()">
+  Exit
+</button>
+</nav>

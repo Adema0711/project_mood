@@ -1,35 +1,3 @@
-<div class="wrapper">
-  <h1>🎭 Что ты чувствуешь?</h1>
-
-  <div class="mood-buttons">
-    <button *ngFor="let mood of moods"
-      (click)="chooseMood(mood)"
-      [class.active]="mood === selectedMood">
-      {{ mood | titlecase }}
-    </button>
-  </div>
-
-  <div *ngIf="rec" class="card">
-    <h2>{{ rec.message }}</h2>
-
-    <p>🎵 <a [href]="rec.music" target="_blank">Послушать музыку</a></p>
-    <p>🎬 <a [href]="rec.movie" target="_blank">Посмотреть фильм</a></p>
-
-    <h3>💡 Советы:</h3>
-    <ul>
-      <li *ngFor="let tip of rec.tips">{{ tip }}</li>
-    </ul>
-
-    <button class="refresh" (click)="refreshTips()">Обновить советы 🔁</button>
-  </div>
-
-  <div class="stats" *ngIf="moodStats | keyvalue">
-    <h4>📊 Ты уже выбирал настроение:</h4>
-    <div *ngFor="let s of moodStats | keyvalue">
-      <b>{{ s.key | titlecase }}:</b> {{ s.value }} раз(а)
-    </div>
-  </div>
-</div>
 
 
 
