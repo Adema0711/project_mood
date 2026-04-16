@@ -58,18 +58,6 @@
 .login-card {
   width: 100%;
   max-width: 380px;
-  position: relative;
-}
-
-.demo-badge {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--primary-dark);
-  background: #efe7ff;
-  padding: 6px 10px;
-  border-radius: 999px;
-  margin-bottom: 16px;
 }
 
 .tab-switch {
@@ -89,8 +77,6 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s;
-  border: none;
-  cursor: pointer;
 }
 
 .tab-switch button.active {
@@ -102,7 +88,6 @@ h2 {
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 4px;
-  color: var(--primary-dark);
 }
 
 .sub {
@@ -123,52 +108,12 @@ h2 {
   margin-bottom: 6px;
 }
 
-.password-wrap {
-  position: relative;
-}
-
-.password-wrap input {
-  width: 100%;
-  padding-right: 46px;
-}
-
-.eye-btn {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.eye-btn svg {
-  width: 18px;
-  height: 18px;
-  fill: var(--text2);
-  transition: fill 0.2s ease, transform 0.2s ease;
-}
-
-.eye-btn:hover svg {
-  fill: var(--primary);
-  transform: scale(1.08);
-}
-
 .submit-btn {
   width: 100%;
   justify-content: center;
   margin-top: 20px;
   padding: 13px;
   font-size: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .submit-btn:disabled {
@@ -176,31 +121,10 @@ h2 {
   cursor: not-allowed;
 }
 
-.error-msg,
-.success-msg {
-  font-size: 13px;
-  border-radius: 10px;
-  padding: 10px 12px;
-  margin-top: 10px;
-  margin-bottom: 8px;
-}
-
-.error-msg {
-  color: #b42318;
-  background: #fef3f2;
-  border: 1px solid #fecdca;
-}
-
-.success-msg {
-  color: #027a48;
-  background: #ecfdf3;
-  border: 1px solid #abefc6;
-}
-
 .spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
@@ -208,9 +132,7 @@ h2 {
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 .demo-hint {
@@ -218,7 +140,6 @@ h2 {
   font-size: 12px;
   color: var(--text3);
   margin-top: 16px;
-  line-height: 1.5;
 }
 
 @media (max-width: 768px) {

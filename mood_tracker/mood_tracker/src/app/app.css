@@ -1,0 +1,270 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: #1a1a1a;
+}
+
+
+.bg-scene,
+.particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bg-scene { z-index: 0; }
+.particles { z-index: 1; }
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+}
+
+.orb-a {
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  left: -150px;
+}
+
+.orb-b {
+  width: 500px;
+  height: 500px;
+  top: 30%;
+  right: -150px;
+}
+
+.mesh {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(124,58,237,0.08), transparent 50%),
+    radial-gradient(circle at 80% 90%, rgba(79,70,229,0.08), transparent 50%);
+}
+
+.nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: rgba(30, 19, 41, 0.384);
+  border-bottom: 1px solid rgba(58, 62, 178, 0.338);
+  backdrop-filter: blur(12px);
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ece8e1;
+}
+
+.nav-time,
+.stat-pill {
+  font-size: 0.85rem;
+  color: rgba(236,232,225,0.6);
+}
+
+/* main */
+.main {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 50px 40px 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hero-title {
+  margin: 0;
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  color: #7d7d7d;
+}
+
+.hero-title em,
+.hero-title--mood,
+.active-icon,
+.tip-num {
+  color: #7C3aed;
+}
+
+.hero-sub {
+  max-width: 560px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(236,232,225,0.65);
+}
+
+.active-mood-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(135, 111, 182, 0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+
+.section-eyebrow {
+  margin-bottom: 16px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(236,232,225,0.4);
+}
+
+.mood-grid,
+.rec-grid,
+.activities-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.mood-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.rec-grid,
+.activities-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.mood-btn,
+.rec-card,
+.affirmation-banner,
+.act-item {
+  background: rgba(152, 86, 190, 0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+}
+
+.mood-btn,
+.rec-card {
+  padding: 22px;
+  transition: 0.3s ease;
+}
+
+.mood-btn:hover,
+.rec-card:hover {
+  background: rgba(255,255,255,0.06);
+  transform: translateY(-3px);
+}
+
+.mood-btn--active {
+  border-color: rgba(183,148,244,0.4);
+  background: rgba(183,148,244,0.08);
+}
+
+.mb-label,
+.rc-title {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.mb-sub,
+.rc-sub,
+.act-label,
+.tip-text,
+.stat-mood,
+.stat-count {
+  color: rgba(236,232,225,0.6);
+  font-size: 0.85rem;
+}
+
+.affirmation-banner {
+  padding: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.aff-quote {
+  font-size: 2.5rem;
+  color: #b794f4;
+}
+
+.aff-text {
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: rgba(236,232,225,0.75);
+}
+
+.stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-bar-wrap {
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.footer {
+  padding: 20px 40px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  background: rgba(8, 8, 16, 0.4);
+  color: rgba(236,232,225,0.5);
+}
+
+@media (max-width: 860px) {
+  .nav,
+  .main,
+  .footer {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .mood-grid,
+  .rec-grid,
+  .activities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .affirmation-banner {
+    padding: 18px;
+  }
+}
+
+

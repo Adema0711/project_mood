@@ -1,10 +1,10 @@
-<div class="page">
+<div class="page" [ngClass]="getMoodBackgroundClass()">
   <div class="container">
 
     <div class="page-header fade-up">
       <div>
         <p class="greeting-sub">{{ greeting }},</p>
-        <h1 class="greeting">{{ auth.currentUser()?.username || 'пользователь' }} 👋</h1>
+        <h1 class="greeting">{{ auth.currentUser()?.username || 'user' }} 👋</h1>
       </div>
       <div class="date-badge">{{ today | date:'d MMMM yyyy' }}</div>
     </div>
@@ -27,6 +27,17 @@
       }
     </div>
 
+    @if (selectedMood) {
+      <div class="selected-summary fade-up">
+        <span class="selected-dot" [style.background]="getMoodMeta(selectedMood)?.color"></span>
+        <span>
+          Selected mood:
+          <strong>{{ getMoodMeta(selectedMood)?.label }}</strong>
+          {{ getMoodMeta(selectedMood)?.emoji }}
+        </span>
+      </div>
+    }
+
     @if (currentRec) {
       <div class="rec-section fade-up" [style.--mood-color]="getMoodMeta(selectedMood)?.color">
 
@@ -41,12 +52,28 @@
         <div class="rec-body">
           <div class="rec-links-row">
             <a [href]="currentRec.music" target="_blank" class="rec-link music-link">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-              Music for your mood
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18V5l12-2v13"></path>
+                <circle cx="6" cy="18" r="3"></circle>
+                <circle cx="18" cy="16" r="3"></circle>
+              </svg>
+              <div>
+                <div class="rec-link-title">Music for your mood</div>
+                <div class="rec-link-sub">Open playlist</div>
+              </div>
             </a>
+
             <a [href]="currentRec.movie" target="_blank" class="rec-link movie-link">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
-              Movie for the evening
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="2"></rect>
+                <line x1="7" y1="2" x2="7" y2="22"></line>
+                <line x1="17" y1="2" x2="17" y2="22"></line>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+              </svg>
+              <div>
+                <div class="rec-link-title">Movie for the evening</div>
+                <div class="rec-link-sub">Open recommendation</div>
+              </div>
             </a>
           </div>
 
@@ -56,26 +83,66 @@
             </div>
             <ul class="tips-list">
               @for (tip of currentRec.tips; track tip) {
-                <li>{{ tip }}</li>
+                <li>• {{ tip }}</li>
               }
             </ul>
           </div>
 
           <div class="note-section">
-            <h3>📝 Note</h3>
-            <textarea [(ngModel)]="note" name="note" placeholder="Write something about your mood..." rows="3"></textarea>
+            <div class="section-top">
+              <h3>📝 Note</h3>
+              <span class="note-count">{{ note.length }}/200</span>
+            </div>
+
+            <textarea
+              [(ngModel)]="note"
+              name="note"
+              placeholder="Write something about your mood..."
+              rows="4"
+              maxlength="200">
+            </textarea>
+
             <div class="intensity-row">
-              <label>Intensity: <strong>{{ intensity }}/10</strong></label>
-              <input type="range" [(ngModel)]="intensity" name="intensity" min="1" max="10" step="1" class="intensity-slider" />
+              <div class="intensity-top">
+                <label>Intensity: <strong>{{ intensity }}/10</strong></label>
+                <span class="intensity-badge">
+                  {{
+                    intensity <= 3 ? 'Low' :
+                    intensity <= 7 ? 'Medium' : 'High'
+                  }}
+                </span>
+              </div>
+
+              <input
+                type="range"
+                [(ngModel)]="intensity"
+                name="intensity"
+                min="1"
+                max="10"
+                step="1"
+                class="intensity-slider" />
             </div>
           </div>
 
-          @if (errorMsg) { <div class="error-msg">{{ errorMsg }}</div> }
-          @if (savedMsg) { <div class="success-msg">{{ savedMsg }}</div> }
+          @if (errorMsg) {
+            <div class="error-msg save-message">⚠️ {{ errorMsg }}</div>
+          }
 
-          <button class="btn btn-primary save-btn" (click)="saveMood()" [disabled]="loading">
-            @if (loading) { <span class="spinner-sm"></span> Saving... }
-            @else { 💾 Save mood }
+          @if (savedMsg) {
+           <div class="success-msg save-message">✅ {{ savedMsg }}</div>
+          }
+
+          <button
+            class="btn btn-primary save-btn"
+            (click)="saveMood()"
+            [disabled]="loading || !selectedMood">
+
+            @if (loading) {
+              <span class="spinner-sm"></span>
+              <span>Saving...</span>
+            } @else {
+              💾 Save mood
+            }
           </button>
         </div>
       </div>
@@ -84,7 +151,8 @@
     @if (!selectedMood) {
       <div class="empty-state fade-up">
         <div class="empty-icon">🌟</div>
-        <p>Choose a mood above to get started</p>
+        <h3>Nothing selected yet</h3>
+        <p>Choose a mood above to unlock personalized tips, music, and movie recommendations.</p>
       </div>
     }
 

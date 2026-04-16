@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-# Mood-Based Web App
-
-## Description
-
-This project is a simple interactive web application that changes its appearance and content based on the user's mood. The user selects their current mood, and the website responds by updating the interface and providing relevant suggestions.
-
-## Team Members
-
-<<<<<<< HEAD
-- Adema
-- Ayaulym
-- Gulzhamal
-=======
 # MoodTracker
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.5.
@@ -71,9 +57,3 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
->>>>>>> ac929ea (new fronted)
-=======
-- Adema
-- Ayaulym
-- Gulzhamal
->>>>>>> 932e19d (project)

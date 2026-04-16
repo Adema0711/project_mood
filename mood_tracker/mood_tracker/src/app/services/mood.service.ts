@@ -8,7 +8,6 @@ export interface MoodEntry {
   emoji: string;
   note: string;
   color: string;
-  intensity?: number;
   music?: string;
   movie?: string;
   tips?: string[];

@@ -1,38 +1,3 @@
-/* ===== BACKGROUND (ВАЖНО — теперь работает всегда) ===== */
-
-.page {
-  min-height: 100vh;
-  transition: background 0.5s ease;
-}
-
-/* Основной фон */
-.bg-default {
-  background: linear-gradient(180deg, #f4efff 0%, #fbf9ff 100%);
-}
-
-/* Настроения */
-.bg-happy {
-  background: linear-gradient(135deg, #fff1b8 0%, #ffe4f1 100%);
-}
-
-.bg-sad {
-  background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%);
-}
-
-.bg-tired {
-  background: linear-gradient(135deg, #e9d5ff 0%, #f5f3ff 100%);
-}
-
-.bg-angry {
-  background: linear-gradient(135deg, #ffd6d6 0%, #ffe5d0 100%);
-}
-
-.bg-calm {
-  background: linear-gradient(135deg, #d9fbe8 0%, #e0f2fe 100%);
-}
-
-/* ===== HEADER ===== */
-
 .page-header {
   display: flex;
   align-items: center;
@@ -43,6 +8,7 @@
 .greeting-sub {
   font-size: 14px;
   color: var(--text2);
+  margin-bottom: 2px;
 }
 
 .greeting {
@@ -51,16 +17,13 @@
 }
 
 .date-badge {
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(6px);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 6px 16px;
   font-size: 13px;
   color: var(--text2);
 }
-
-/* ===== QUESTION ===== */
 
 .mood-question {
   margin-bottom: 24px;
@@ -69,6 +32,7 @@
 .mood-question h2 {
   font-size: 20px;
   font-weight: 600;
+  margin-bottom: 4px;
 }
 
 .mood-question p {
@@ -76,13 +40,11 @@
   color: var(--text2);
 }
 
-/* ===== MOOD GRID ===== */
-
 .mood-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 32px;
 }
 
 .mood-btn {
@@ -92,22 +54,22 @@
   gap: 8px;
   padding: 20px 12px;
   border-radius: var(--radius);
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(4px);
+  background: var(--surface);
   border: 2px solid transparent;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.25s;
 }
 
 .mood-btn:hover {
   border-color: var(--mood-color);
-  transform: translateY(-3px);
+  background: var(--surface2);
+  transform: translateY(-2px);
 }
 
 .mood-btn.selected {
   border-color: var(--mood-color);
+  background: var(--bg2);
   box-shadow: 0 0 0 3px var(--border2);
-  transform: translateY(-3px);
 }
 
 .mood-emoji {
@@ -117,34 +79,11 @@
 .mood-label {
   font-size: 13px;
   color: var(--text2);
+  font-weight: 500;
 }
-
-/* ===== SELECTED SUMMARY ===== */
-
-.selected-summary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(6px);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 10px 14px;
-  margin-bottom: 24px;
-  font-size: 14px;
-}
-
-.selected-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-/* ===== RECOMMENDATION ===== */
 
 .rec-section {
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(8px);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
@@ -154,6 +93,7 @@
 
 .rec-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
   border-bottom: 1px solid var(--border);
@@ -161,8 +101,15 @@
 
 .rec-mood-tag {
   display: flex;
+  align-items: center;
   gap: 8px;
+  font-size: 15px;
   font-weight: 600;
+}
+
+.clear-btn {
+  font-size: 13px;
+  padding: 6px 12px;
 }
 
 .rec-body {
@@ -172,8 +119,6 @@
   gap: 20px;
 }
 
-/* ===== LINKS ===== */
-
 .rec-links-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -182,16 +127,15 @@
 
 .rec-link {
   display: flex;
+  align-items: center;
   gap: 10px;
-  padding: 14px;
+  padding: 14px 18px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border2);
+  font-size: 14px;
+  font-weight: 500;
   text-decoration: none;
-  transition: 0.2s;
-}
-
-.rec-link:hover {
-  transform: scale(1.02);
+  transition: all 0.2s;
+  border: 1px solid var(--border2);
 }
 
 .music-link {
@@ -199,26 +143,69 @@
   color: var(--primary);
 }
 
+.music-link:hover {
+  background: var(--bg3);
+  text-decoration: none;
+}
+
 .movie-link {
   background: var(--bg2);
   color: var(--accent);
 }
 
-/* ===== TIPS ===== */
+.movie-link:hover {
+  background: var(--bg3);
+  text-decoration: none;
+}
 
 .tips-section {
   background: var(--bg3);
   border-radius: var(--radius-sm);
-  padding: 16px;
+  padding: 16px 20px;
+}
+
+.tips-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.tips-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.refresh-tips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.refresh-tips:hover {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .tips-list {
+  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* ===== NOTE ===== */
+.tips-list li {
+  font-size: 14px;
+  color: var(--text2);
+}
 
 .note-section {
   display: flex;
@@ -226,34 +213,68 @@
   gap: 12px;
 }
 
-textarea {
-  min-height: 90px;
-  resize: none;
+.note-section h3 {
+  font-size: 14px;
+  font-weight: 600;
 }
 
-/* ===== SLIDER ===== */
+textarea {
+  resize: none;
+  min-height: 80px;
+}
+
+.intensity-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.intensity-row label {
+  font-size: 13px;
+  color: var(--text2);
+}
 
 .intensity-slider {
   accent-color: var(--primary);
+  cursor: pointer;
 }
-
-/* ===== BUTTON ===== */
 
 .save-btn {
   width: 100%;
+  justify-content: center;
   padding: 13px;
+  font-size: 15px;
 }
 
-/* ===== EMPTY ===== */
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner-sm {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 
 .empty-state {
   text-align: center;
-  padding: 60px;
-  background: rgba(255,255,255,0.5);
-  border-radius: var(--radius);
+  padding: 60px 24px;
+  color: var(--text3);
 }
 
-/* ===== MOBILE ===== */
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
 
 @media (max-width: 600px) {
   .mood-grid {
@@ -263,16 +284,4 @@ textarea {
   .rec-links-row {
     grid-template-columns: 1fr;
   }
-
-  .page-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-.save-message {
-  position: sticky;
-  bottom: 12px;
-  z-index: 5;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }

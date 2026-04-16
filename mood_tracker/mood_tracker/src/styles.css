@@ -112,36 +112,6 @@ button {
   padding: 24px 16px 60px;
 }
 
-
-.page.bg-default {
-  background: linear-gradient(135deg, #f3edff 0%, #fcfbff 100%);
-  transition: background 0.5s ease;
-}
-
-.page.bg-happy {
-  background: linear-gradient(135deg, #ffe082 0%, #ffd1e8 100%);
-  transition: background 0.5s ease;
-}
-
-.page.bg-sad {
-  background: linear-gradient(135deg, #bcdcff 0%, #d9ccff 100%);
-  transition: background 0.5s ease;
-}
-
-.page.bg-tired {
-  background: linear-gradient(135deg, #d8c2ff 0%, #efe8ff 100%);
-  transition: background 0.5s ease;
-}
-
-.page.bg-angry {
-  background: linear-gradient(135deg, #ffb3b3 0%, #ffd6b8 100%);
-  transition: background 0.5s ease;
-}
-
-.page.bg-calm {
-  background: linear-gradient(135deg, #bff3d8 0%, #cdefff 100%);
-  transition: background 0.5s ease;
-}
 .container {
   max-width: 800px;
   margin: 0 auto;

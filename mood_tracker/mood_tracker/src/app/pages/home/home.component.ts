@@ -45,48 +45,28 @@ export class HomeComponent {
   }
 
   saveMood() {
-  if (!this.selectedMood) {
-    this.errorMsg = 'Please select a mood!';
-    this.savedMsg = '';
-    return;
+    if (!this.selectedMood) { this.errorMsg = 'Please select a mood!'; return; }
+    const entry: MoodEntry = { ...this.currentRec!, note: this.note, mood: this.selectedMood };
+    this.loading = true;
+    this.errorMsg = '';
+
+    this.moodService.saveMood(entry).subscribe({
+      next: () => {
+        this.moodService.saveLocal(entry);
+        this.savedMsg = 'Mood saved! ✅';
+        this.loading = false;
+        this.note = '';
+        setTimeout(() => this.savedMsg = '', 3000);
+      },
+      error: () => {
+        this.moodService.saveLocal(entry);
+        this.savedMsg = 'Saved locally ✅';
+        this.loading = false;
+        this.note = '';
+        setTimeout(() => this.savedMsg = '', 3000);
+      }
+    });
   }
-
-  const entry: MoodEntry = {
-    ...this.currentRec!,
-    note: this.note,
-    mood: this.selectedMood,
-    intensity: this.intensity
-  };
-
-  this.loading = true;
-  this.errorMsg = '';
-  this.savedMsg = '';
-
-  this.moodService.saveMood(entry).subscribe({
-    next: () => {
-      this.moodService.saveLocal(entry);
-      this.loading = false;
-      this.savedMsg = 'Mood saved successfully ✅';
-      this.note = '';
-      this.intensity = 5;
-
-      setTimeout(() => {
-        this.savedMsg = '';
-      }, 4000);
-    },
-    error: () => {
-      this.moodService.saveLocal(entry);
-      this.loading = false;
-      this.savedMsg = 'Mood saved locally ✅';
-      this.note = '';
-      this.intensity = 5;
-
-      setTimeout(() => {
-        this.savedMsg = '';
-      }, 4000);
-    }
-  });
-}
 
   clearSelection() {
     this.selectedMood = '';
@@ -95,13 +75,6 @@ export class HomeComponent {
     this.errorMsg = '';
     this.savedMsg = '';
   }
-
-  getMoodBackgroundClass(): string {
-  const mood = this.getMoodMeta(this.selectedMood);
-  if (!mood) return 'bg-default';
-
-  return 'bg-' + mood.key.toLowerCase();
-}
 
   getMoodMeta(key: string) {
     return this.moods.find(m => m.key === key);
