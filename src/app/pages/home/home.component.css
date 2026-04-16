@@ -1,0 +1,278 @@
+/* ===== BACKGROUND (ВАЖНО — теперь работает всегда) ===== */
+
+.page {
+  min-height: 100vh;
+  transition: background 0.5s ease;
+}
+
+/* Основной фон */
+.bg-default {
+  background: linear-gradient(180deg, #f4efff 0%, #fbf9ff 100%);
+}
+
+/* Настроения */
+.bg-happy {
+  background: linear-gradient(135deg, #fff1b8 0%, #ffe4f1 100%);
+}
+
+.bg-sad {
+  background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%);
+}
+
+.bg-tired {
+  background: linear-gradient(135deg, #e9d5ff 0%, #f5f3ff 100%);
+}
+
+.bg-angry {
+  background: linear-gradient(135deg, #ffd6d6 0%, #ffe5d0 100%);
+}
+
+.bg-calm {
+  background: linear-gradient(135deg, #d9fbe8 0%, #e0f2fe 100%);
+}
+
+/* ===== HEADER ===== */
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.greeting-sub {
+  font-size: 14px;
+  color: var(--text2);
+}
+
+.greeting {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.date-badge {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 13px;
+  color: var(--text2);
+}
+
+/* ===== QUESTION ===== */
+
+.mood-question {
+  margin-bottom: 24px;
+}
+
+.mood-question h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.mood-question p {
+  font-size: 14px;
+  color: var(--text2);
+}
+
+/* ===== MOOD GRID ===== */
+
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.mood-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 12px;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(4px);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mood-btn:hover {
+  border-color: var(--mood-color);
+  transform: translateY(-3px);
+}
+
+.mood-btn.selected {
+  border-color: var(--mood-color);
+  box-shadow: 0 0 0 3px var(--border2);
+  transform: translateY(-3px);
+}
+
+.mood-emoji {
+  font-size: 32px;
+}
+
+.mood-label {
+  font-size: 13px;
+  color: var(--text2);
+}
+
+/* ===== SELECTED SUMMARY ===== */
+
+.selected-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 14px;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.selected-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* ===== RECOMMENDATION ===== */
+
+.rec-section {
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 24px;
+  border-top: 3px solid var(--mood-color);
+}
+
+.rec-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.rec-mood-tag {
+  display: flex;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.rec-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ===== LINKS ===== */
+
+.rec-links-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.rec-link {
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border2);
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.rec-link:hover {
+  transform: scale(1.02);
+}
+
+.music-link {
+  background: var(--bg2);
+  color: var(--primary);
+}
+
+.movie-link {
+  background: var(--bg2);
+  color: var(--accent);
+}
+
+/* ===== TIPS ===== */
+
+.tips-section {
+  background: var(--bg3);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+.tips-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ===== NOTE ===== */
+
+.note-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+/* ===== SLIDER ===== */
+
+.intensity-slider {
+  accent-color: var(--primary);
+}
+
+/* ===== BUTTON ===== */
+
+.save-btn {
+  width: 100%;
+  padding: 13px;
+}
+
+/* ===== EMPTY ===== */
+
+.empty-state {
+  text-align: center;
+  padding: 60px;
+  background: rgba(255,255,255,0.5);
+  border-radius: var(--radius);
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 600px) {
+  .mood-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .rec-links-row {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.save-message {
+  position: sticky;
+  bottom: 12px;
+  z-index: 5;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
