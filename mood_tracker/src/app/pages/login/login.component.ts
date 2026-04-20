@@ -99,29 +99,41 @@ export class LoginComponent {
 
     this.loading = true;
 
-    setTimeout(() => {
-      const token = 'demo.' + btoa(this.email) + '.token';
-      const user = {
-        id: 1,
-        username:
-          this.mode === 'register'
-            ? this.username.trim()
-            : this.email.split('@')[0],
-        email: this.email
-      };
+    if (this.mode === 'login') {
+      this.auth.login(this.email, this.password).subscribe({
+        next: () => {
+          this.loading = false;
+          this.success = 'Login successful!';
+          setTimeout(() => this.router.navigate(['/home']), 500);
+        },
+        error: (err) => {
+          this.loading = false;
+          this.error = err?.error?.detail || 'Login failed';
+        }
+      });
+    } else {
+      this.auth.register(this.username.trim(), this.email, this.password).subscribe({
+        next: () => {
+          this.loading = false;
+          this.success = 'Account created successfully!';
+          setTimeout(() => this.router.navigate(['/home']), 500);
+        },
+        error: (err) => {
+          this.loading = false;
 
-      this.auth.setSession({ access_token: token, user });
-      this.loading = false;
-
-      if (this.mode === 'register') {
-        this.success = 'Account created successfully!';
-      } else {
-        this.success = 'Login successful!';
-      }
-
-      setTimeout(() => {
-        this.router.navigate(['/home']);
-      }, 500);
-    }, 700);
+          if (err?.error?.email) {
+            this.error = err.error.email[0];
+          } else if (err?.error?.username) {
+            this.error = err.error.username[0];
+          } else if (err?.error?.password) {
+            this.error = err.error.password[0];
+          } else if (err?.error?.detail) {
+            this.error = err.error.detail;
+          } else {
+            this.error = 'Registration failed';
+          }
+        }
+      });
+    }
   }
 }
