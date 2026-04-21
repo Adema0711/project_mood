@@ -47,48 +47,40 @@ export class HomeComponent {
   }
 
   saveMood() {
-  if (!this.selectedMood) {
-    this.errorMsg = 'Please select a mood!';
-    this.savedMsg = '';
-    return;
-  }
-
-  const entry: MoodEntry = {
-    ...this.currentRec!,
-    note: this.note,
-    mood: this.selectedMood,
-    intensity: this.intensity
-  };
-
-  this.loading = true;
-  this.errorMsg = '';
-  this.savedMsg = '';
-
-  this.moodService.saveMood(entry).subscribe({
-    next: () => {
-      this.moodService.saveLocal(entry);
-      this.loading = false;
-      this.savedMsg = 'Mood saved successfully ✅';
-      this.note = '';
-      this.intensity = 5;
-
-      setTimeout(() => {
-        this.savedMsg = '';
-      }, 4000);
-    },
-    error: () => {
-      this.moodService.saveLocal(entry);
-      this.loading = false;
-      this.savedMsg = 'Mood saved locally ✅';
-      this.note = '';
-      this.intensity = 5;
-
-      setTimeout(() => {
-        this.savedMsg = '';
-      }, 4000);
+    if (!this.selectedMood) {
+      this.errorMsg = 'Please select a mood!';
+      this.savedMsg = '';
+      return;
     }
-  });
-}
+
+    const entry: MoodEntry = {
+      ...this.currentRec!,
+      note: this.note,
+      mood: this.selectedMood,
+      intensity: this.intensity
+    };
+
+    this.loading = true;
+    this.errorMsg = '';
+    this.savedMsg = '';
+
+    this.moodService.saveMood(entry).subscribe({
+      next: () => {
+        this.loading = false;
+        this.savedMsg = 'Mood saved successfully ✅';
+        this.note = '';
+        this.intensity = 5;
+
+        setTimeout(() => {
+          this.savedMsg = '';
+        }, 4000);
+      },
+      error: (err) => {
+        this.loading = false;
+        this.errorMsg = err?.error?.detail || 'Could not save mood';
+      }
+    });
+  }
 
   clearSelection() {
     this.selectedMood = '';

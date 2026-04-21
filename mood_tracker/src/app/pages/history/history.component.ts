@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MoodService, MoodEntry, MOODS } from '../../services/mood.service';
+import { MoodService, MoodEntry, MoodStats, MOODS } from '../../services/mood.service';
 
 @Component({
   selector: 'app-history',
@@ -17,6 +17,15 @@ export class HistoryComponent implements OnInit {
   loading = signal(true);
   error = signal('');
 
+  stats = signal<MoodStats>({
+    happy: 0,
+    sad: 0,
+    tired: 0,
+    angry: 0,
+    calm: 0,
+    total: 0
+  });
+
   filterMoodVal = '';
   searchNoteVal = '';
   deleteMessage = '';
@@ -28,22 +37,22 @@ export class HistoryComponent implements OnInit {
   ngOnInit() {
     this.moodService.getHistory().subscribe({
       next: data => {
-        const local = this.moodService.getLocalHistory();
-        const merged = [...data, ...local].filter(
-          (v, i, a) => a.findIndex(x => x.id === v.id) === i
-        );
-
-        const finalData = merged.length ? merged : local;
-
-        this.all.set(finalData);
-        this.filtered.set(finalData);
+        this.all.set(data);
+        this.filtered.set(data);
         this.loading.set(false);
       },
       error: () => {
-        const local = this.moodService.getLocalHistory();
-        this.all.set(local);
-        this.filtered.set(local);
+        this.error.set('Failed to load history');
         this.loading.set(false);
+      }
+    });
+
+    this.moodService.getStats().subscribe({
+      next: data => {
+        this.stats.set(data);
+      },
+      error: () => {
+        console.error('Failed to load stats');
       }
     });
   }
@@ -77,19 +86,19 @@ export class HistoryComponent implements OnInit {
     if (!ok) return;
 
     this.moodService.deleteMood(entry.id).subscribe({
-      next: () => {},
-      error: () => {}
+      next: () => {
+        this.all.update(arr => arr.filter(e => e.id !== entry.id));
+        this.filtered.update(arr => arr.filter(e => e.id !== entry.id));
+
+        this.deleteMessage = 'Entry deleted';
+        setTimeout(() => {
+          this.deleteMessage = '';
+        }, 2000);
+      },
+      error: () => {
+        this.deleteMessage = 'Failed to delete';
+      }
     });
-
-    this.moodService.deleteLocal(entry.id);
-
-    this.all.update(arr => arr.filter(e => e.id !== entry.id));
-    this.filtered.update(arr => arr.filter(e => e.id !== entry.id));
-
-    this.deleteMessage = 'Entry deleted';
-    setTimeout(() => {
-      this.deleteMessage = '';
-    }, 2000);
   }
 
   getMoodMeta(key: string) {
@@ -101,6 +110,18 @@ export class HistoryComponent implements OnInit {
       ...m,
       count: this.all().filter(e => e.mood === m.key).length
     })).filter(m => m.count > 0);
+  }
+
+  backendMoodCounts() {
+    const s = this.stats();
+
+    return [
+      { key: 'радостно', label: 'Happy', emoji: '😄', color: '#f6d860', count: s.happy },
+      { key: 'грустно', label: 'Sad', emoji: '😢', color: '#60a5fa', count: s.sad },
+      { key: 'устал', label: 'Tired', emoji: '😴', color: '#a78bfa', count: s.tired },
+      { key: 'злюсь', label: 'Angry', emoji: '😠', color: '#f87171', count: s.angry },
+      { key: 'спокойно', label: 'Calm', emoji: '😌', color: '#34d399', count: s.calm },
+    ].filter(m => m.count > 0);
   }
 
   getIntensityLabel(value?: number): string {

@@ -13,14 +13,14 @@
     @if (all().length > 0) {
       <div class="overview-row fade-up">
         <div class="overview-card">
-          <div class="overview-value">{{ all().length }}</div>
+          <div class="overview-value">{{ stats().total }}</div>
           <div class="overview-label">
             {{ all().length === 1 ? 'entry total' : 'entries total' }}
           </div>
         </div>
 
         <div class="stats-row">
-          @for (stat of moodCounts(); track stat.key) {
+          @for (stat of backendMoodCounts(); track stat.key) {
             <div
               class="stat-card"
               [style.--mood-color]="stat.color"
