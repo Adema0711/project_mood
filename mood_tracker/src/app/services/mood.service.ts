@@ -24,11 +24,11 @@ export const MOODS = [
 ];
 
 const RECS: Record<string, Partial<MoodEntry>> = {
-  радостно: { music: 'https://open.spotify.com/playlist/3dnXGas4EgEYxlphPZT6zF?si=7d17e57ca2a8445a', movie: 'https://www.imdb.com/title/tt2096673/', tips: ['Share some positivity with your friends 🌞','Do something nice for someone 💌','Capture this moment!','Continue the day with a smile 😁'] },
-  грустно:  { music: 'https://open.spotify.com/playlist/37i9dQZF1EIg85EO6f7KwU?si=519db17a5ffc4c85', movie: 'https://www.imdb.com/title/tt1675434/', tips: ['Listen to your favorite music 🎧', 'Call a friend ☎️', 'Go for a walk 🌳', 'Watch something inspiring ✨'] },
-  устал:    { music: 'https://open.spotify.com/playlist/0Lo31VIQiOvkX8NL1TEiXa?si=e47c15e021864192', movie: 'https://www.imdb.com/title/tt2948372/', tips: ['Take a break and drink some water 💧', 'Close your eyes for a couple of minutes 💤', 'Just do nothing - thats okay 😎', 'Get some fresh air 🌿'] },
-  злюсь:    { music: 'https://open.spotify.com/playlist/2ixTs55cUKl0UoCNHd8JcO?si=a982139b85e74c92', movie: 'https://www.imdb.com/title/tt0108052/', tips: ['Take 10 deep breaths 🌬️','Write down whats making you angry ✍️','Go for a brisk walk 🚶','Talk to someone you trust 💬'] },
-  спокойно: { music: 'https://open.spotify.com/playlist/37i9dQZF1EIfTmpqlGn32s?si=63e669f1abda408b', movie: 'https://www.imdb.com/title/tt0317219/', tips: ['Meditate for 5 minutes 🧘', 'Read a book 📖', 'Engage in creative activities 🎨', 'Enjoy some quiet time ☕'] },
+  радостно: { music: 'https://open.spotify.com/playlist/3dnXGas4EgEYxlphPZT6zF?si=7d17e57ca2a8445a', movie: 'https://www.imdb.com/title/tt2096673/', tips: ['Share some positivity with your friends ','Do something nice for someone ','Capture this moment!','Continue the day with a smile '] },
+  грустно:  { music: 'https://open.spotify.com/playlist/37i9dQZF1EIg85EO6f7KwU?si=519db17a5ffc4c85', movie: 'https://www.imdb.com/title/tt1675434/', tips: ['Listen to your favorite music ', 'Call a friend ', 'Go for a walk ', 'Watch something inspiring '] },
+  устал:    { music: 'https://open.spotify.com/playlist/0Lo31VIQiOvkX8NL1TEiXa?si=e47c15e021864192', movie: 'https://www.imdb.com/title/tt2948372/', tips: ['Take a break and drink some water ', 'Close your eyes for a couple of minutes ', 'Just do nothing - thats okay ', 'Get some fresh air '] },
+  злюсь:    { music: 'https://open.spotify.com/playlist/2ixTs55cUKl0UoCNHd8JcO?si=a982139b85e74c92', movie: 'https://www.imdb.com/title/tt0108052/', tips: ['Take 10 deep breaths ','Write down whats making you angry ','Go for a brisk walk ','Talk to someone you trust '] },
+  спокойно: { music: 'https://open.spotify.com/playlist/37i9dQZF1EIfTmpqlGn32s?si=63e669f1abda408b', movie: 'https://www.imdb.com/title/tt0317219/', tips: ['Meditate for 5 minutes ', 'Read a book ', 'Engage in creative activities ', 'Enjoy some quiet time '] },
 };
 
 @Injectable({ providedIn: 'root' })

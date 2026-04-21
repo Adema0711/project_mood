@@ -39,6 +39,8 @@ export class HomeComponent {
     this.errorMsg = '';
   }
 
+
+
   refreshTips() {
     if (!this.selectedMood) return;
     this.currentRec = this.moodService.getRecommendation(this.selectedMood);

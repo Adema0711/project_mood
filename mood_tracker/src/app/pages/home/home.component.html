@@ -4,7 +4,7 @@
     <div class="page-header fade-up">
       <div>
         <p class="greeting-sub">{{ greeting }},</p>
-        <h1 class="greeting">{{ auth.currentUser()?.username || 'user' }} 👋</h1>
+        <h1 class="greeting">{{ auth.currentUser()?.username || 'user' }} </h1>
       </div>
       <div class="date-badge">{{ today | date:'d MMMM yyyy' }}</div>
     </div>
@@ -79,18 +79,18 @@
 
           <div class="tips-section">
             <div class="tips-header">
-              <h3>💡 Tips for you</h3>
+              <h3> Tips for you</h3>
             </div>
             <ul class="tips-list">
               @for (tip of currentRec.tips; track tip) {
-                <li>• {{ tip }}</li>
+                <li> {{ tip }}</li>
               }
             </ul>
           </div>
 
           <div class="note-section">
             <div class="section-top">
-              <h3>📝 Note</h3>
+              <h3> Note</h3>
               <span class="note-count">{{ note.length }}/200</span>
             </div>
 
@@ -125,11 +125,11 @@
           </div>
 
           @if (errorMsg) {
-            <div class="error-msg save-message">⚠️ {{ errorMsg }}</div>
+            <div class="error-msg save-message"> {{ errorMsg }}</div>
           }
 
           @if (savedMsg) {
-           <div class="success-msg save-message">✅ {{ savedMsg }}</div>
+           <div class="success-msg save-message"> {{ savedMsg }}</div>
           }
 
           <button
@@ -141,7 +141,7 @@
               <span class="spinner-sm"></span>
               <span>Saving...</span>
             } @else {
-              💾 Save mood
+               Save mood
             }
           </button>
         </div>

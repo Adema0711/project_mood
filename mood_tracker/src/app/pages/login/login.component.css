@@ -22,17 +22,18 @@
 }
 
 .hero-content h1 {
-  font-size: 36px;
+  font-size: 52px;
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   color: var(--primary-dark);
+  line-height: 1.1;
 }
 
 .hero-content p {
-  font-size: 15px;
+  font-size: 18px;
   color: var(--text2);
   line-height: 1.7;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 .features {
@@ -42,7 +43,7 @@
 }
 
 .feature {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text2);
 }
 
