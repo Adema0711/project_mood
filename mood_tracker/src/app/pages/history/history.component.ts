@@ -2,6 +2,8 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MoodService, MoodEntry, MoodStats, MOODS } from '../../services/mood.service';
+import { Chart } from 'chart.js/auto';
+
 
 @Component({
   selector: 'app-history',
@@ -10,7 +12,6 @@ import { MoodService, MoodEntry, MoodStats, MOODS } from '../../services/mood.se
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.css']
 })
-
 export class HistoryComponent implements OnInit {
   all = signal<MoodEntry[]>([]);
   filtered = signal<MoodEntry[]>([]);
@@ -29,6 +30,8 @@ export class HistoryComponent implements OnInit {
   filterMoodVal = '';
   searchNoteVal = '';
   deleteMessage = '';
+
+  chart: Chart | null = null;
 
   moods = [{ key: '', label: 'All', emoji: '', color: '' }, ...MOODS];
 
@@ -50,6 +53,10 @@ export class HistoryComponent implements OnInit {
     this.moodService.getStats().subscribe({
       next: data => {
         this.stats.set(data);
+
+        setTimeout(() => {
+          this.createChart();
+        }, 100);
       },
       error: () => {
         console.error('Failed to load stats');
@@ -94,6 +101,13 @@ export class HistoryComponent implements OnInit {
         setTimeout(() => {
           this.deleteMessage = '';
         }, 2000);
+
+        this.moodService.getStats().subscribe({
+          next: data => {
+            this.stats.set(data);
+            this.createChart();
+          }
+        });
       },
       error: () => {
         this.deleteMessage = 'Failed to delete';
@@ -103,13 +117,6 @@ export class HistoryComponent implements OnInit {
 
   getMoodMeta(key: string) {
     return MOODS.find(m => m.key === key);
-  }
-
-  moodCounts() {
-    return MOODS.map(m => ({
-      ...m,
-      count: this.all().filter(e => e.mood === m.key).length
-    })).filter(m => m.count > 0);
   }
 
   backendMoodCounts() {
@@ -122,6 +129,53 @@ export class HistoryComponent implements OnInit {
       { key: 'злюсь', label: 'Angry', emoji: '😠', color: '#f87171', count: s.angry },
       { key: 'спокойно', label: 'Calm', emoji: '😌', color: '#34d399', count: s.calm },
     ].filter(m => m.count > 0);
+  }
+
+  createChart() {
+    const s = this.stats();
+
+    const data = [
+      s.happy,
+      s.sad,
+      s.tired,
+      s.angry,
+      s.calm
+    ];
+
+    const labels = ['Happy', 'Sad', 'Tired', 'Angry', 'Calm'];
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart('moodChart', {
+      type: 'pie',
+      data: {
+        labels,
+        datasets: [
+          {
+            data,
+            backgroundColor: [
+              '#fdd554', 
+              '#64B5F6', 
+              '#9575CD', 
+              '#FF7043', 
+              '#81C784'  
+            ],
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
   }
 
   getIntensityLabel(value?: number): string {

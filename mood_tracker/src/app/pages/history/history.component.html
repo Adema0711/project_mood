@@ -33,6 +33,12 @@
           }
         </div>
       </div>
+
+      @if (stats().total > 0) {
+      <div class="chart-container fade-up">
+        <canvas id="moodChart"></canvas>
+      </div>
+      }
     }
 
     <div class="filters fade-up">

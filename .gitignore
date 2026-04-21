@@ -1,0 +1,11 @@
+backend/node_modules/
+venv/
+backend/venv/
+
+__pycache__/
+*.pyc
+
+db.sqlite3
+backend/db.sqlite3
+backend/package.json
+backend/package-lock.json
