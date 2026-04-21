@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
+from .models import MoodEntry
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +34,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+    
+class MoodEntrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MoodEntry
+        fields = ['id', 'mood', 'note', 'intensity', 'music', 'movie', 'created_at']
+        read_only_fields = ['id', 'created_at']
