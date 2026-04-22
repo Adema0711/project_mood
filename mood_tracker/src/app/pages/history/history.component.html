@@ -12,42 +12,68 @@
 
     @if (all().length > 0) {
       <div class="overview-row fade-up">
-        <div class="overview-card">
-          <div class="overview-value">{{ stats().total }}</div>
-          <div class="overview-label">
-            {{ all().length === 1 ? 'entry total' : 'entries total' }}
-          </div>
-        </div>
-
         <div class="stats-row">
           @for (stat of backendMoodCounts(); track stat.key) {
             <div
               class="stat-card"
               [style.--mood-color]="stat.color"
-              (click)="filterMoodVal = stat.key; applyFilter()"
+              (click)="filterMoodVal = stat.key; loadData()"
             >
               <span class="stat-emoji">{{ stat.emoji }}</span>
               <span class="stat-label">{{ stat.label }}</span>
               <span class="stat-count">{{ stat.count }}</span>
             </div>
           }
+
+          <div class="stat-card total-card">
+            <span class="stat-emoji">📝</span>
+            <span class="stat-label">Total</span>
+            <span class="stat-count">{{ stats().total }}</span>
+          </div>
         </div>
       </div>
 
       @if (stats().total > 0) {
-      <div class="chart-container fade-up">
-        <canvas id="moodChart"></canvas>
-      </div>
+        <div class="chart-container fade-up">
+          <canvas id="moodChart"></canvas>
+        </div>
       }
     }
 
     <div class="filters fade-up">
       <div class="filter-group">
-        <select [(ngModel)]="filterMoodVal" (ngModelChange)="applyFilter()">
+        <select [(ngModel)]="filterMoodVal" (ngModelChange)="loadData()">
           @for (m of moods; track m.key) {
             <option [value]="m.key">{{ m.label }}</option>
           }
         </select>
+      </div>
+
+      <div class="filter-group">
+        <select [(ngModel)]="filterIntensityVal" (ngModelChange)="loadData()">
+          <option value="">All intensity</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <input
+          type="date"
+          [(ngModel)]="dateFromVal"
+          (ngModelChange)="loadData()"
+          placeholder="From"
+        />
+      </div>
+
+      <div class="filter-group">
+        <input
+          type="date"
+          [(ngModel)]="dateToVal"
+          (ngModelChange)="loadData()"
+          placeholder="To"
+        />
       </div>
 
       <div class="filter-group search-group">
@@ -58,7 +84,7 @@
         />
       </div>
 
-      @if (filterMoodVal || searchNoteVal) {
+      @if (filterMoodVal || filterIntensityVal || dateFromVal || dateToVal || searchNoteVal) {
         <button class="btn btn-ghost" (click)="clearFilters()">✕ Clear filters</button>
       }
     </div>
@@ -87,6 +113,7 @@
       <div class="entries-list fade-up">
         @for (entry of filtered(); track entry.id) {
           <div class="entry-card" [style.--mood-color]="getMoodMeta(entry.mood)?.color">
+
             <div class="entry-left">
               <span class="entry-emoji">{{ getMoodMeta(entry.mood)?.emoji }}</span>
 
@@ -113,12 +140,23 @@
               </div>
             </div>
 
-            <button class="delete-btn" (click)="deleteEntry(entry)" title="Delete">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="3 6 5 6 21 6"/>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
-              </svg>
-            </button>
+            <div class="entry-actions">
+              <button class="icon-btn telegram" (click)="shareEntryTelegram(entry)">
+                <img src="icons/telegram.png" alt="Telegram">
+              </button>
+
+              <button class="icon-btn whatsapp" (click)="shareEntryWhatsApp(entry)">
+                <img src="icons/whatsapp.png" alt="WhatsApp">
+              </button>
+
+              <button class="delete-btn" (click)="deleteEntry(entry)" title="Delete">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                </svg>
+              </button>
+            </div>
+
           </div>
         }
       </div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, of } from 'rxjs';
+
 
 export interface MoodStats {
   happy: number;
@@ -9,6 +10,13 @@ export interface MoodStats {
   angry: number;
   calm: number;
   total: number;
+}
+
+export interface MoodFilters {
+  mood?: string;
+  intensity?: string;
+  date_from?: string;
+  date_to?: string;
 }
 
 export interface MoodEntry {
@@ -115,10 +123,37 @@ export class MoodService {
     'calm': 'спокойно',
   };
 
+  private buildParams(filters?: MoodFilters): HttpParams {
+    let params = new HttpParams();
+
+    if (!filters) return params;
+
+    if (filters.mood) {
+      const apiMood = this.uiToApiMood[filters.mood] ?? filters.mood;
+      params = params.set('mood', apiMood);
+    }
+
+    if (filters.intensity) {
+      params = params.set('intensity', filters.intensity);
+    }
+
+    if (filters.date_from) {
+      params = params.set('date_from', filters.date_from);
+    }
+
+    if (filters.date_to) {
+      params = params.set('date_to', filters.date_to);
+    }
+
+    return params;
+  }
+
   constructor(private http: HttpClient) {}
 
-  getStats() {
-    return this.http.get<MoodStats>('http://127.0.0.1:8000/api/auth/moods/stats/');
+  getStats(filters?: MoodFilters) {
+    return this.http.get<MoodStats>('http://127.0.0.1:8000/api/auth/moods/stats/', {
+      params: this.buildParams(filters)
+    });
   }
 
   getRecommendation(mood: string): MoodEntry {
@@ -152,8 +187,10 @@ export class MoodService {
     );
   }
 
-  getHistory() {
-    return this.http.get<ApiMoodEntry[]>(this.apiUrl).pipe(
+  getHistory(filters?: MoodFilters) {
+    return this.http.get<ApiMoodEntry[]>(this.apiUrl, {
+      params: this.buildParams(filters)
+    }).pipe(
       map(entries => entries.map(entry => this.fromApi(entry))),
       catchError(() => of(this.getLocalHistory()))
     );
@@ -169,6 +206,10 @@ export class MoodService {
     return this.http.patch('http://127.0.0.1:8000/api/auth/profile/', data).pipe(
       catchError(err => { throw err; })
     );
+  }
+
+  clearHistory() {
+    return this.http.delete('http://127.0.0.1:8000/api/auth/moods/clear/');
   }
 
   saveLocal(entry: MoodEntry) {

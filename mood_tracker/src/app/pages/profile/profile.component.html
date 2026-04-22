@@ -9,24 +9,6 @@
           <div class="avatar">{{ initials }}</div>
           <div class="avatar-name">{{ auth.currentUser()?.username }}</div>
           <div class="avatar-email">{{ auth.currentUser()?.email }}</div>
-
-          <div class="stats-grid">
-            <div class="stat">
-              <div class="stat-val">{{ totalEntries }}</div>
-              <div class="stat-lbl">Entries</div>
-            </div>
-            <div class="stat">
-              <div class="stat-val">{{ streak }}</div>
-              <div class="stat-lbl">Days in a row</div>
-            </div>
-          </div>
-
-          @if (dominantMood) {
-            <div class="dominant-mood" [style.--mood-color]="dominantMood.color">
-              <span>{{ dominantMood.emoji }}</span>
-              <span>Most common: {{ dominantMood.label }}</span>
-            </div>
-          }
         </div>
 
         <div class="danger-card card">

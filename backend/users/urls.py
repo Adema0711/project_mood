@@ -1,6 +1,7 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
 from .views import RegisterView, LoginView, ProfileView, MoodListCreateView, MoodDeleteView, MoodStatsView
+from .views import ClearHistoryView
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
@@ -11,5 +12,5 @@ urlpatterns = [
     path('moods/', MoodListCreateView.as_view(), name='moods'),
     path('moods/<int:pk>/', MoodDeleteView.as_view(), name='mood_delete'),
     path('moods/stats/', MoodStatsView.as_view(), name='mood_stats'),
-
+    path('moods/clear/', ClearHistoryView.as_view(), name='clear_history'),
 ]

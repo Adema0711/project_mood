@@ -1,13 +1,53 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import MoodEntry
+from .models import MoodEntry, UserProfile
 
 
 class UserSerializer(serializers.ModelSerializer):
+    bio = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
+        fields = ['id', 'username', 'email', 'bio']
+
+    def get_bio(self, obj):
+        profile = getattr(obj, 'profile', None)
+        return profile.bio if profile else ''
+
+class UpdateProfileSerializer(serializers.ModelSerializer):
+    bio = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'bio']
+
+    def validate_email(self, value):
+        qs = User.objects.filter(email=value).exclude(id=self.instance.id)
+        if qs.exists():
+            raise serializers.ValidationError("User with this email already exists.")
+        return value
+
+    def validate_username(self, value):
+        qs = User.objects.filter(username=value).exclude(id=self.instance.id)
+        if qs.exists():
+            raise serializers.ValidationError("User with this username already exists.")
+        return value
+
+    def update(self, instance, validated_data):
+        bio = validated_data.pop('bio', None)
+
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.save()
+
+        profile, created = UserProfile.objects.get_or_create(user=instance)
+
+        if bio is not None:
+            profile.bio = bio
+
+        profile.save()
+        return instance
 
 
 class RegisterSerializer(serializers.ModelSerializer):

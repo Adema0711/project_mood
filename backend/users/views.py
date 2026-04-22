@@ -4,10 +4,39 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import RegisterSerializer, UserSerializer, MoodEntrySerializer
+from .serializers import RegisterSerializer, UserSerializer, UpdateProfileSerializer, MoodEntrySerializer
 from .models import MoodEntry
 from django.db.models import Count
+from django.utils.dateparse import parse_date
 
+def apply_mood_filters(queryset, request):
+    mood = request.query_params.get('mood')
+    intensity = request.query_params.get('intensity')
+    date_from = request.query_params.get('date_from')
+    date_to = request.query_params.get('date_to')
+
+    if mood:
+        queryset = queryset.filter(mood=mood)
+
+    if intensity == 'low':
+        queryset = queryset.filter(intensity__lte=3)
+    elif intensity == 'medium':
+        queryset = queryset.filter(intensity__gte=4, intensity__lte=7)
+    elif intensity == 'high':
+        queryset = queryset.filter(intensity__gte=8)
+
+    if date_from:
+        parsed_from = parse_date(date_from)
+        if parsed_from:
+            queryset = queryset.filter(created_at__date__gte=parsed_from)
+
+    if date_to:
+        parsed_to = parse_date(date_to)
+        if parsed_to:
+            queryset = queryset.filter(created_at__date__lte=parsed_to)
+
+    return queryset
+    
 
 class RegisterView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -70,13 +99,31 @@ class ProfileView(APIView):
 
     def get(self, request):
         return Response(UserSerializer(request.user).data)
+
+    def patch(self, request):
+        serializer = UpdateProfileSerializer(request.user, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(UserSerializer(request.user).data)
+
+        return Response(serializer.errors, status=400)
     
+
+class ClearHistoryView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request):
+        MoodEntry.objects.filter(user=request.user).delete()
+        return Response({'message': 'History cleared'})
 
 class MoodListCreateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         moods = MoodEntry.objects.filter(user=request.user).order_by('-created_at')
+        moods = apply_mood_filters(moods, request)
+
         serializer = MoodEntrySerializer(moods, many=True)
         return Response(serializer.data)
 
@@ -111,6 +158,7 @@ class MoodStatsView(APIView):
 
     def get(self, request):
         moods = MoodEntry.objects.filter(user=request.user)
+        moods = apply_mood_filters(moods, request)
 
         stats_qs = (
             moods.values('mood')

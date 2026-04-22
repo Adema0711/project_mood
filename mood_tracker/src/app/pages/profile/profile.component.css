@@ -54,6 +54,10 @@
   margin-bottom: 16px;
 }
 
+.single-stat {
+  grid-template-columns: 1fr;
+}
+
 .stat {
   background: var(--bg3);
   border-radius: var(--radius-sm);
@@ -72,19 +76,6 @@
   color: var(--text3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-.dominant-mood {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px;
-  background: var(--bg2);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  color: var(--primary);
-  border: 1px solid var(--border2);
 }
 
 .danger-card {
@@ -157,4 +148,19 @@ textarea {
   .profile-layout {
     grid-template-columns: 1fr;
   }
+}
+
+
+.streak-stat {
+  background: linear-gradient(180deg, #efe7ff 0%, #e7d8ff 100%);
+  border: 1px solid #dbc6ff;
+}
+
+.streak-stat .stat-val {
+  font-size: 28px;
+}
+
+.streak-stat .stat-lbl {
+  font-size: 13px;
+  letter-spacing: 0.6px;
 }

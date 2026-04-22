@@ -4,12 +4,18 @@ import { Router } from '@angular/router';
 import { tap, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
-export interface User { id: number; username: string; email: string; }
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  bio?: string| null;
+}
 export interface AuthResponse {
   access_token: string;
   refresh_token?: string;
   user: User;
 }
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = 'http://127.0.0.1:8000/api/auth';
