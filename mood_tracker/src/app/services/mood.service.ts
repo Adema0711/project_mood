@@ -165,12 +165,14 @@ export class MoodService {
     );
   }
 
-  updateProfile(data: { username: string; email: string; bio: string }) {
-    return this.http.patch('http://127.0.0.1:8000/api/auth/profile/', data).pipe(
-      catchError(err => { throw err; })
-    );
+  updateProfile(data: any) {
+    return this.http.patch('http://127.0.0.1:8000/api/auth/profile/', data);
   }
 
+  clearHistory() {
+    return this.http.delete('http://127.0.0.1:8000/api/auth/moods/clear/');
+  }
+ 
   saveLocal(entry: MoodEntry) {
     const hist = this.getLocalHistory();
     const e = { ...entry, id: Date.now(), createdAt: new Date().toISOString() };

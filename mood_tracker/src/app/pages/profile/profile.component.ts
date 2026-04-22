@@ -54,16 +54,36 @@ export class ProfileComponent {
   }
 
   saveProfile() {
-    this.error = '';
-    if (!this.username || !this.email) { this.error = 'Please fill in all fields'; return; }
-    this.saving = true;
+  this.error = '';
+  this.saved = false;
 
-    this.moodService.updateProfile({ username: this.username, email: this.email, bio: this.bio }).subscribe({
-      next: () => this.onSaved(),
-      error: () => this.onSaved()
-    });
+  if (!this.username || !this.email) {
+    this.error = 'Fill all fields';
+    return;
   }
 
+  this.saving = true;
+
+  this.moodService.updateProfile({
+    username: this.username,
+    email: this.email,
+    bio: this.bio
+  }).subscribe({
+    next: (res: any) => {
+      localStorage.setItem('current_user', JSON.stringify(res));
+      this.auth.currentUser.set(res);
+
+      this.saving = false;
+      this.saved = true;
+
+      setTimeout(() => this.saved = false, 3000);
+    },
+    error: () => {
+      this.error = 'Error saving';
+      this.saving = false;
+    }
+  });
+}
   private onSaved() {
     const user = this.auth.currentUser();
     if (user) {
@@ -77,8 +97,10 @@ export class ProfileComponent {
   }
 
   clearHistory() {
-    if (!confirm('Delete all mood history?')) return;
-    localStorage.removeItem('mood_history');
+  if (!confirm('Delete all mood history?')) return;
+
+  this.moodService.clearHistory().subscribe(() => {
     alert('History cleared');
-  }
+  });
+}
 }

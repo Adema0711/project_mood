@@ -86,34 +86,19 @@ export class HistoryComponent implements OnInit {
     this.filtered.set(this.all());
   }
 
-  deleteEntry(entry: MoodEntry) {
-    if (!entry.id) return;
+  deleteEntry(entry: any) {
+  if (!confirm('Delete this mood entry?')) return;
 
-    const ok = confirm('Delete this mood entry?');
-    if (!ok) return;
+  this.moodService.deleteMood(entry.id).subscribe(() => {
+    this.deleteMessage = 'Entry deleted 🗑';
 
-    this.moodService.deleteMood(entry.id).subscribe({
-      next: () => {
-        this.all.update(arr => arr.filter(e => e.id !== entry.id));
-        this.filtered.update(arr => arr.filter(e => e.id !== entry.id));
+    setTimeout(() => {
+      this.deleteMessage = '';
+    }, 2000);
 
-        this.deleteMessage = 'Entry deleted';
-        setTimeout(() => {
-          this.deleteMessage = '';
-        }, 2000);
-
-        this.moodService.getStats().subscribe({
-          next: data => {
-            this.stats.set(data);
-            this.createChart();
-          }
-        });
-      },
-      error: () => {
-        this.deleteMessage = 'Failed to delete';
-      }
-    });
-  }
+    this.loadData();
+  });
+}
 
   getMoodMeta(key: string) {
     return MOODS.find(m => m.key === key);
@@ -185,4 +170,26 @@ export class HistoryComponent implements OnInit {
     if (intensity <= 7) return 'Medium';
     return 'High';
   }
+
+  shareEntryTelegram(entry: any) {
+  const text = this.buildShareText(entry);
+  window.open(`https://t.me/share/url?text=${encodeURIComponent(text)}`);
+  }
+
+  shareEntryWhatsApp(entry: any) {
+  const text = this.buildShareText(entry);
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`);
+  }
+
+  buildShareText(entry: any) {
+  return `✨ Mood update ✨
+😊 Feeling: ${entry.mood}
+🔥 Intensity: ${entry.intensity}/10
+📝 Note: ${entry.note || 'No note'}
+📊 Shared via MoodTrack`;
 }
+
+}
+
+  
+   
