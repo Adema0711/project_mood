@@ -1,7 +1,18 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from .models import MoodEntry, UserProfile, MoodRecommendation, MoodComment
 
-from .models import MoodEntry, UserProfile
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+
+class MoodStatsSerializer(serializers.Serializer):
+    total_entries = serializers.IntegerField()
+    average_intensity = serializers.FloatField()
+    most_common_mood = serializers.CharField()
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -80,3 +91,18 @@ class MoodEntrySerializer(serializers.ModelSerializer):
         model = MoodEntry
         fields = ['id', 'mood', 'note', 'intensity', 'music', 'movie', 'created_at']
         read_only_fields = ['id', 'created_at']
+
+class MoodRecommendationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MoodRecommendation
+        fields = '__all__'
+
+
+class MoodCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MoodComment
+        fields = ['id', 'mood_entry', 'text', 'created_at']
+        read_only_fields = ['id', 'created_at', 'mood_entry']
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()

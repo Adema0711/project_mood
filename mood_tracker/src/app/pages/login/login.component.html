@@ -157,6 +157,9 @@
           {{ mode === 'login' ? 'Login' : 'Register' }}
         }
       </button>
+      @if (error) {
+        <div class="error-msg">⚠️ {{ error }}</div>
+      }
 
       <p class="demo-hint">
          Secure authentication with Django backend

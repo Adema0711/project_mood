@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MoodService, MoodEntry, MoodStats, MoodFilters, MOODS } from '../../services/mood.service';
+import { MoodService, MoodEntry, MoodStats, MoodFilters, MOODS, MoodRecommendation } from '../../services/mood.service';
 import { Chart } from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
@@ -20,6 +20,7 @@ export class HistoryComponent implements OnInit {
   loading = signal(true);
   error = signal('');
 
+
   stats = signal<MoodStats>({
     happy: 0,
     sad: 0,
@@ -35,8 +36,13 @@ export class HistoryComponent implements OnInit {
   filterIntensityVal = '';
   dateFromVal = '';
   dateToVal = '';
+  
 
   chart: Chart | null = null;
+
+  recommendationsMap: Record<number, MoodRecommendation[]> = {};
+  openedRecommendations: Record<number, boolean> = {};
+  recommendationsLoading: Record<number, boolean> = {};
 
   moods = [{ key: '', label: 'All', emoji: '', color: '' }, ...MOODS];
 
@@ -90,6 +96,51 @@ export class HistoryComponent implements OnInit {
         this.showBanner('Failed to delete entry');
       }
     });
+  }
+  
+  toggleRecommendations(entry: MoodEntry) {
+    if (!entry.id) return;
+
+    const isOpen = this.openedRecommendations[entry.id];
+
+    if (isOpen) {
+      this.openedRecommendations[entry.id] = false;
+      return;
+    }
+
+    this.openedRecommendations[entry.id] = true;
+
+    if (this.recommendationsMap[entry.id]) {
+      return;
+    }
+
+    this.recommendationsLoading[entry.id] = true;
+
+    this.moodService.getRecommendations(entry.id).subscribe({
+      next: (data) => {
+        this.recommendationsMap[entry.id!] = data;
+        this.recommendationsLoading[entry.id!] = false;
+      },
+      error: () => {
+        this.recommendationsMap[entry.id!] = [];
+        this.recommendationsLoading[entry.id!] = false;
+      }
+    });
+  }
+
+  getRecommendations(entryId?: number): MoodRecommendation[] {
+    if (!entryId) return [];
+    return this.recommendationsMap[entryId] || [];
+  }
+
+  isRecommendationsOpen(entryId?: number): boolean {
+    if (!entryId) return false;
+    return !!this.openedRecommendations[entryId];
+  }
+
+  isRecommendationsLoading(entryId?: number): boolean {
+    if (!entryId) return false;
+    return !!this.recommendationsLoading[entryId];
   }
 
   getMoodMeta(key: string) {
@@ -201,6 +252,8 @@ export class HistoryComponent implements OnInit {
     if (intensity <= 7) return 'Medium';
     return 'High';
   }
+
+  
 
   loadData() {
     const filters: MoodFilters = {

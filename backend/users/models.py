@@ -31,6 +31,40 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class MoodRecommendation(models.Model):
+    mood_entry = models.ForeignKey(
+        MoodEntry,
+        on_delete=models.CASCADE,
+        related_name='recommendations'
+    )
+    title = models.CharField(max_length=100)
+    recommendation_type = models.CharField(
+        max_length=20,
+        choices=[
+            ('music', 'Music'),
+            ('movie', 'Movie'),
+            ('activity', 'Activity'),
+        ]
+    )
+    link = models.URLField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.recommendation_type}: {self.title}"
+
+
+class MoodComment(models.Model):
+    mood_entry = models.ForeignKey(
+        MoodEntry,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment for mood #{self.mood_entry.id}"
     
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):

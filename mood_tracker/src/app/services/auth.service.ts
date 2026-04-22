@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { tap, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
+
 export interface User {
   id: number;
   username: string;
@@ -18,7 +19,7 @@ export interface AuthResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:8000/api/auth';
+  private apiUrl = 'http://127.0.0.1:8000/api';
   currentUser = signal<User | null>(this.loadUser());
   isLoggedIn = signal<boolean>(!!localStorage.getItem('jwt_token'));
 
@@ -43,6 +44,19 @@ export class AuthService {
   }
 
   logout() {
+    const refresh = localStorage.getItem('refresh_token');
+
+    if (refresh) {
+      this.http.post(`${this.apiUrl}/logout/`, { refresh }).subscribe({
+        next: () => this.clearSession(),
+        error: () => this.clearSession()
+      });
+    } else {
+      this.clearSession();
+    }
+  }
+
+  private clearSession() {
     localStorage.removeItem('jwt_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('current_user');
@@ -50,6 +64,7 @@ export class AuthService {
     this.isLoggedIn.set(false);
     this.router.navigate(['/login']);
   }
+
 
   getToken(): string | null { return localStorage.getItem('jwt_token'); }
 

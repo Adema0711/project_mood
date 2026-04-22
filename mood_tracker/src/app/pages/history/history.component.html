@@ -149,6 +149,10 @@
                 <img src="icons/whatsapp.png" alt="WhatsApp">
               </button>
 
+              <button class="btn btn-ghost" (click)="toggleRecommendations(entry)">
+                {{ isRecommendationsOpen(entry.id) ? 'Hide recs' : 'Show recs' }}
+              </button>
+
               <button class="delete-btn" (click)="deleteEntry(entry)" title="Delete">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="3 6 5 6 21 6"/>
@@ -156,6 +160,32 @@
                 </svg>
               </button>
             </div>
+            @if (isRecommendationsOpen(entry.id)) {
+              <div class="recommendations-box">
+                @if (isRecommendationsLoading(entry.id)) {
+                  <div class="entry-note">Loading recommendations...</div>
+                } @else if (getRecommendations(entry.id).length === 0) {
+                  <div class="entry-note empty-note">No recommendations found</div>
+                } @else {
+                  <div class="recommendations-list">
+                    @for (rec of getRecommendations(entry.id); track rec.id) {
+                      <div class="recommendation-item">
+                        <div class="recommendation-type">
+                          {{ rec.recommendation_type | titlecase }}
+                        </div>
+                        <div class="recommendation-title">
+                          {{ rec.title }}
+                        </div>
+
+                        @if (rec.link) {
+                          <a [href]="rec.link" target="_blank">Open link</a>
+                        }
+                      </div>
+                      }
+                    </div>
+                  }
+                </div>
+              }
 
           </div>
         }

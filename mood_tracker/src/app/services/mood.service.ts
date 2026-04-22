@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, of } from 'rxjs';
 
 
+
 export interface MoodStats {
   happy: number;
   sad: number;
@@ -41,6 +42,24 @@ interface ApiMoodEntry {
   movie?: string;
   created_at?: string;
 }
+
+export interface MoodRecommendation {
+  id: number;
+  mood_entry: number;
+  title: string;
+  recommendation_type: string;
+  link: string;
+  created_at: string;
+}
+
+
+export interface MoodComment {
+  id: number;
+  mood_entry: number;
+  text: string;
+  created_at: string;
+}
+
 
 export const MOODS = [
   { key: 'радостно',  label: 'Happy', emoji: '😄', color: '#f6d860', bg: 'rgba(246,216,96,0.12)' },
@@ -105,7 +124,7 @@ const RECS: Record<string, Partial<MoodEntry>> = {
 
 @Injectable({ providedIn: 'root' })
 export class MoodService {
-  private apiUrl = 'http://127.0.0.1:8000/api/auth/moods/';
+  private apiUrl = 'http://127.0.0.1:8000/api/moods/';
 
   private uiToApiMood: Record<string, string> = {
     'радостно': 'happy',
@@ -151,7 +170,7 @@ export class MoodService {
   constructor(private http: HttpClient) {}
 
   getStats(filters?: MoodFilters) {
-    return this.http.get<MoodStats>('http://127.0.0.1:8000/api/auth/moods/stats/', {
+    return this.http.get<MoodStats>('http://127.0.0.1:8000/api/moods/stats/', {
       params: this.buildParams(filters)
     });
   }
@@ -171,6 +190,19 @@ export class MoodService {
       movie: rec.movie,
       tips
     };
+  }
+
+  getComments(moodId: number) {
+    return this.http.get<MoodComment[]>(
+      `http://127.0.0.1:8000/api/moods/${moodId}/comments/`
+    );
+  }
+
+  addComment(moodId: number, text: string) {
+    return this.http.post<MoodComment>(
+      `http://127.0.0.1:8000/api/moods/${moodId}/comments/`,
+      { text }
+    );
   }
 
   saveMood(entry: MoodEntry) {
@@ -203,13 +235,13 @@ export class MoodService {
   }
 
   updateProfile(data: { username: string; email: string; bio: string }) {
-    return this.http.patch('http://127.0.0.1:8000/api/auth/profile/', data).pipe(
+    return this.http.patch('http://127.0.0.1:8000/api/profile/', data).pipe(
       catchError(err => { throw err; })
     );
   }
 
   clearHistory() {
-    return this.http.delete('http://127.0.0.1:8000/api/auth/moods/clear/');
+    return this.http.delete('http://127.0.0.1:8000/api/moods/clear/');
   }
 
   saveLocal(entry: MoodEntry) {
@@ -220,6 +252,13 @@ export class MoodService {
     return e;
   }
 
+
+  getRecommendations(moodId: number) {
+    return this.http.get<MoodRecommendation[]>(
+      `http://127.0.0.1:8000/api/moods/${moodId}/recommendations/`
+    );
+  }
+
   getLocalHistory(): MoodEntry[] {
     const s = localStorage.getItem('mood_history');
     return s ? JSON.parse(s) : [];
@@ -228,6 +267,20 @@ export class MoodService {
   deleteLocal(id: number) {
     const hist = this.getLocalHistory().filter(e => e.id !== id);
     localStorage.setItem('mood_history', JSON.stringify(hist));
+  }
+
+  updateMood(id: number, entry: MoodEntry) {
+    const apiMood = this.uiToApiMood[entry.mood] ?? entry.mood;
+
+    return this.http.patch<ApiMoodEntry>(`${this.apiUrl}${id}/update/`, {
+      mood: apiMood,
+      note: entry.note,
+      intensity: entry.intensity ?? 5,
+      music: entry.music ?? '',
+      movie: entry.movie ?? ''
+    }).pipe(
+      map(apiEntry => this.fromApi(apiEntry))
+    );
   }
 
   private fromApi(entry: ApiMoodEntry): MoodEntry {

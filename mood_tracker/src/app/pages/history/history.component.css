@@ -292,3 +292,37 @@
     transform: translateY(0);
   }
 }
+
+
+.recommendations-box {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.recommendations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recommendation-item {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.recommendation-type {
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.recommendation-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
