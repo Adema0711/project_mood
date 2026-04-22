@@ -70,6 +70,15 @@ class ProfileView(APIView):
 
     def get(self, request):
         return Response(UserSerializer(request.user).data)
+   
+    def patch(self, request):
+    serializer = UpdateProfileSerializer(request.user, data=request.data, partial=True)
+
+    if serializer.is_valid():
+        user = serializer.save()
+        return Response(UserSerializer(user).data)
+
+    return Response(serializer.errors, status=400)
     
 
 class MoodListCreateView(APIView):
