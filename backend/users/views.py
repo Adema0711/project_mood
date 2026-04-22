@@ -140,3 +140,10 @@ class MoodStatsView(APIView):
             stats[item['mood']] = item['count']
 
         return Response(stats)
+    
+class ClearHistoryView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request):
+        MoodEntry.objects.filter(user=request.user).delete()
+        return Response({'message': 'History cleared'})

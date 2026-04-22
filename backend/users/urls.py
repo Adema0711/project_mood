@@ -11,5 +11,6 @@ urlpatterns = [
     path('moods/', MoodListCreateView.as_view(), name='moods'),
     path('moods/<int:pk>/', MoodDeleteView.as_view(), name='mood_delete'),
     path('moods/stats/', MoodStatsView.as_view(), name='mood_stats'),
+    path('moods/clear/', ClearHistoryView.as_view()),
 
 ]
