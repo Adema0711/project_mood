@@ -11,6 +11,12 @@ export interface User {
   bio?: string;
 }
 
+export interface AuthResponse {
+  access_token: string;   // 
+  refresh_token: string;  // 
+  user: User;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = 'http://127.0.0.1:8000/api/auth';
