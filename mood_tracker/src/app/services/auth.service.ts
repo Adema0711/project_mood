@@ -4,13 +4,13 @@ import { Router } from '@angular/router';
 import { tap, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
-
 export interface User {
   id: number;
   username: string;
   email: string;
-  bio?: string| null;
+  bio?: string | null;
 }
+
 export interface AuthResponse {
   access_token: string;
   refresh_token?: string;
@@ -65,16 +65,16 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-
-  getToken(): string | null { return localStorage.getItem('jwt_token'); }
+  getToken(): string | null {
+    return localStorage.getItem('jwt_token');
+  }
 
   setSession(res: AuthResponse) {
     localStorage.setItem('jwt_token', res.access_token);
 
     if (res.refresh_token) {
       localStorage.setItem('refresh_token', res.refresh_token);
-      }
-    
+    }
 
     localStorage.setItem('current_user', JSON.stringify(res.user));
     this.currentUser.set(res.user);

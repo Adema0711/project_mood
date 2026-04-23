@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { finalize } from 'rxjs/operators';
+import { signal } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,7 @@ export class LoginComponent {
   username = '';
   confirmPassword = '';
 
-  loading = false;
+  loading = signal(false);
   error = '';
   success = '';
 
@@ -98,39 +98,37 @@ export class LoginComponent {
       }
     }
 
-    this.loading = true;
+    this.loading.set(true);
 
-   if (this.mode === 'login') {
-      this.auth.login(this.email, this.password)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
-        .subscribe({
-          next: () => {
-            this.success = 'Login successful!';
-            setTimeout(() => this.router.navigate(['/home']), 500);
-          },
-          error: (err) => {
-            if (err?.status === 401) {
-              this.error = 'Invalid email or password';
-            } else if (err?.status === 0) {
-              this.error = 'Cannot connect to server';
-            } else {
-              this.error = err?.error?.detail || 'Login failed';
-            }
+    if (this.mode === 'login') {
+      this.auth.login(this.email, this.password).subscribe({
+        next: () => {
+          this.loading.set(false);
+          this.success = 'Login successful!';
+          setTimeout(() => this.router.navigate(['/home']), 500);
+        },
+        error: (err) => {
+
+          this.loading.set(false);
+
+          if (err?.status === 401) {
+            this.error = 'Invalid email or password';
+          } else if (err?.status === 0) {
+            this.error = 'Cannot connect to server';
+          } else {
+            this.error = err?.error?.detail || err?.error?.error || 'Login failed';
           }
-        });
-    }else {
+        }
+      });
+    } else {
       this.auth.register(this.username.trim(), this.email, this.password).subscribe({
         next: () => {
-          this.loading = false;
+          this.loading.set(false);
           this.success = 'Account created successfully!';
           setTimeout(() => this.router.navigate(['/home']), 500);
         },
         error: (err) => {
-          this.loading = false;
+          this.loading.set(false);
 
           if (err?.error?.email) {
             this.error = err.error.email[0];
