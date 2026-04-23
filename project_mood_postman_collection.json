@@ -1,0 +1,162 @@
+{
+  "info": {
+    "name": "Mood Project API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000/api/auth" },
+    { "key": "accessToken", "value": "" },
+    { "key": "refreshToken", "value": "" },
+    { "key": "moodId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/register/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"1234\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/login/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"1234\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Profile Get",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": "{{baseUrl}}/profile/"
+      }
+    },
+    {
+      "name": "Profile Patch",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/profile/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"bio\": \"Updated bio\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Create Mood",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/moods/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"mood\": \"happy\",\n  \"note\": \"I feel good today\",\n  \"intensity\": 8,\n  \"music\": \"https://open.spotify.com/\",\n  \"movie\": \"https://www.imdb.com/\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Get Moods",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": "{{baseUrl}}/moods/"
+      }
+    },
+    {
+      "name": "Get Mood By ID",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": "{{baseUrl}}/moods/{{moodId}}/"
+      }
+    },
+    {
+      "name": "Update Mood",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/moods/{{moodId}}/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"mood\": \"calm\",\n  \"note\": \"Updated note\",\n  \"intensity\": 6,\n  \"music\": \"https://open.spotify.com/\",\n  \"movie\": \"https://www.imdb.com/\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Delete Mood",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": "{{baseUrl}}/moods/{{moodId}}/"
+      }
+    },
+    {
+      "name": "Mood Stats",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": "{{baseUrl}}/moods/stats/"
+      }
+    },
+    {
+      "name": "Clear History",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": "{{baseUrl}}/moods/clear/"
+      }
+    },
+    {
+      "name": "Categories",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": "{{baseUrl}}/categories/"
+      }
+    },
+    {
+      "name": "Recommendations",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": "{{baseUrl}}/recommendations/"
+      }
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/logout/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refresh_token\": \"{{refreshToken}}\"\n}"
+        }
+      }
+    }
+  ]
+}
